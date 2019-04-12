@@ -6,20 +6,21 @@ import { RsaService } from './rsa-service.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers:[RsaService]
+  providers: [RsaService]
 })
 export class AppComponent {
   title = 'app';
   @ViewChild('form')
   form: ElementRef;
-  url = `https://theopallabs.com/ccavenueapi/payment/GetRSA`;
+  // url = 'https://theopallabs.com/ccavenueapi/payment/ccavRequestHandler';
+  url = 'http://192.168.0.110/ccavenueapi/payment/ccavRequestHandler';
+
 
   encRequest: String;
   accessCode: String;
   orderId = 10;
   encryptedData: string;
   decryptedData: string;
-  constructor(private httpClient: HttpClient, private rsaService: RsaService) {}
   formData = {
     merchant_id: 176088,
     order_id: 2597145,
@@ -32,28 +33,57 @@ export class AppComponent {
     access_code: 'AVEI77FE93AU82IEUA'
   };
 
+  constructor(private httpClient: HttpClient, private rsaService: RsaService) {}
   ngOnInit() {
     this.accessCode = 'AVEI77FE93AU82IEUA';
-    // this.getEncRequest().subscribe(
-    //   data => {
-    //     console.log('data', data)
-    //     this.encRequest = data as string;
-    //     console.log('this.encRequest', this.encRequest)
-    //   }, error => {
-    //     console.log(error)
-    //   }
-    // );
+    const fd = this.saveMsadetail(
+      176088,
+      2597145,
+      'INR',
+      1,
+      'https://theopallabs.com/ccavenueapi/payment/ccavResponseHandler',
+      'https://theopallabs.com/ccavenueapi/payment/ccavResponseHandler',
+      'en',
+      'AVEI77FE93AU82IEUA'
+    );
+    this.getEncRequest(fd).subscribe(
+      data => {
+        console.log('data', data);
+        this.encRequest = data as string;
+        console.log('this.encRequest', this.encRequest);
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
     /* --------------------- for encrypt data ---------------- */
-    // console.log(' JSON.stringify(this.formData)', JSON.stringify(this.formData))
-    // this.encryptedData = this.rsaService.encrypt( JSON.stringify(this.formData));
+
+    // console.log(' JSON.stringify(this.formData)', JSON.stringify(this.formData));
+    // this.encryptedData = this.rsaService.encrypt(JSON.stringify(this.formData));
     // console.log('this.encryptedData', this.encryptedData);
   }
-  // getEncRequest(){
-  //   return this.httpClient.post(this.url, {accessCode: this.accessCode, orderId: this.orderId});
-  // }
+  getEncRequest(fd) {
+    return this.httpClient.post(this.url, fd,{
+      headers: new HttpHeaders().set('Content-type', 'application/json')
+    });
+
+  }
 
   pay() {
     this.form.nativeElement.submit();
+  }
+
+  saveMsadetail(file, cId, uId, type, startdate, enddate, language, access_code) {
+    const fd = new FormData();
+    fd.append('merchant_id', file);
+    fd.append('order_id', cId);
+    fd.append('currency', uId);
+    fd.append('amount', type);
+    fd.append('redirect_url', startdate);
+    fd.append('cancel_url', enddate);
+    fd.append('language', language);
+    fd.append('access_code', access_code);
+    return fd;
   }
 }

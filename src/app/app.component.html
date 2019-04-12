@@ -5,64 +5,11 @@
   </div>
 </div>
 
-
-<form #form ngNoForm id="nonseamless" method="post" name="redirect" action="https://theopallabs.com/ccavenueapi/payment/ccavRequestHandler">
-  <!-- https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction -->
-  <!-- <input type="hidden" id="encRequest" name="encRequest" value="{{encRequest}}">
-  <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}"> -->
-  <table width="40%" height="100" border='1' align="center">
-    <tr>
-      <td>Parameter Name:</td>
-      <td>Parameter Value:</td>
-    </tr>
-    <tr>
-      <td colspan="2">Compulsory information</td>
-    </tr>
-    <tr>
-      <td>TID	:</td><td><input type="text" name="tid" id="tid" readonly /></td>
-    </tr>
-    <tr>
-      <td>Merchant Id</td>
-      <td><input type="text" name="merchant_id" id="merchant_id" value="176088" /> </td>
-    </tr>
-    <tr>
-      <td>Order Id</td>
-      <td><input type="text" name="order_id" value="" /></td>
-    </tr>
-    <tr>
-      <td>Currency</td>
-      <td><input type="text" name="currency" value="INR" /></td>
-    </tr>
-    <tr>
-      <td>Amount</td>
-      <td><input type="text" name="amount" value="1.00" /></td>
-    </tr>
-    <tr>
-      <td>Redirect URL</td>
-      <td><input type="text" name="redirect_url"
-        value="https://theopallabs.com/ccavenueapi/payment/ccavResponseHandler" />
-      </td>
-    </tr>
-    <tr>
-      <td>Cancel URL</td>
-      <td><input type="text" name="cancel_url"
-        value="https://theopallabs.com/ccavenueapi/payment/ccavResponseHandler" />
-      </td>
-    </tr>
-    <tr>
-      <td>Language</td>
-      <td><input type="text" name="language" id="language" value="EN" /></td>
-    </tr>
-    <tr>
-      <td>Integration Type:</td>
-      <td><select name="integration_type">
-          <option value="iframe_normal">iframe_normal</option>
-      </select></td>
-    </tr>
-
-    <!-- <tr>
-      <td></td>
-      <td><INPUT TYPE="submit" value="Checkout"></td>
-    </tr> -->
-  </table>
+<form #form ngNoForm
+  id="nonseamless"
+  method="post"
+  name="redirect"
+  action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction">
+    <input type="hidden" id="encRequest" name="encRequest" value="{{encRequest}}">
+    <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}">
 </form>
